@@ -7,8 +7,10 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -53,7 +55,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
@@ -63,16 +64,18 @@ fun ProdutoItem() {
     var curso by remember{ mutableStateOf( "")}
     var serie by remember{ mutableStateOf( "")}
 
-    // Main container for the product item
+
+    val scrollState = rememberScrollState()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .verticalScroll(scrollState) // Tornando a Column rolável
+            .padding(50.dp)
     ) {
-        // Image and text content
         Box(
             modifier = Modifier
-                .height(170.dp) // Ajuste a altura do Box conforme necessário
+                .height(170.dp)
                 .background(
                     brush = Brush.horizontalGradient(
                         colors = listOf(Purple500, Minhacor, Purple40)
@@ -84,27 +87,27 @@ fun ProdutoItem() {
                 painter = painterResource(id = R.drawable.lll),
                 contentDescription = "Descrição da imagem",
                 modifier = Modifier
-                    .offset(y = 50.dp) // Ajuste o valor de offset conforme necessário
+                    .offset(y = 50.dp)
                     .clip(CircleShape)
                     .align(Alignment.BottomCenter)
-                    .height(200.dp)  // Defina a altura desejada
-                    .width(250.dp)   // Defina a largura desejada (ajuste conforme necessário)
+                    .height(200.dp)
+                    .width(250.dp)
             )
         }
 
-        Spacer(modifier = Modifier.height(70.dp))  // Espaço adicional abaixo da imagem
+        Spacer(modifier = Modifier.height(70.dp))
 
         Column(
             modifier = Modifier
                 .fillMaxWidth() // Preenche toda a largura disponível
-                .padding(bottom = 16.dp), // Adiciona padding na parte inferior
-            horizontalAlignment = Alignment.CenterHorizontally, // Centraliza o conteúdo horizontalmente
-            verticalArrangement = Arrangement.Center // Opcional, centraliza verticalmente se houver espaço
+                .padding(bottom = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
             Text(
                 text = "Não é cadastrado? Se cadastre!!",
                 fontSize = 19.sp,
-                fontWeight = FontWeight.Bold, // Altere para negrito
+                fontWeight = FontWeight.Bold,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 color = Color.Magenta,
@@ -113,13 +116,12 @@ fun ProdutoItem() {
             )
         }
 
-        Spacer(modifier = Modifier.height(16.dp)) // Espaço entre o texto e o TextField
-
+        Spacer(modifier = Modifier.height(16.dp))
 
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 16.dp), // Adiciona padding na parte inferior
+                .padding(bottom = 16.dp),
             horizontalArrangement = Arrangement.Center
         ) {
             TextField(
@@ -156,7 +158,6 @@ fun ProdutoItem() {
 
         Spacer(modifier = Modifier.height(30.dp))
 
-        // Curso input TextField
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -177,7 +178,6 @@ fun ProdutoItem() {
 
         Spacer(modifier = Modifier.height(30.dp))
 
-        // Série input TextField
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -198,7 +198,6 @@ fun ProdutoItem() {
 
         Spacer(modifier = Modifier.height(30.dp))
 
-        // Cadastrar Button
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -208,6 +207,9 @@ fun ProdutoItem() {
             Button(
                 onClick = {
                     nome = ""
+                    telefone = ""
+                    curso = ""
+                    serie = ""
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
                 modifier = Modifier
